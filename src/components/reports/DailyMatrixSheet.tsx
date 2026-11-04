@@ -217,7 +217,10 @@ export const DailyMatrixSheet: React.FC = () => {
             p.physicalActualStock !== undefined && p.physicalActualStock !== null
               ? p.physicalActualStock
               : '';
-          initialStoreStocks[p.shortCode] = p.finishedStoreStock ?? 0;
+          initialStoreStocks[p.shortCode] =
+            p.finishedStoreStock !== undefined && p.finishedStoreStock !== null
+              ? p.finishedStoreStock
+              : '';
         });
         setActualCounts(initialActuals);
         setStoreStocks(initialStoreStocks);
