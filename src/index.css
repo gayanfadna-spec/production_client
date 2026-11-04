@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-main: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+  }
+
+  .dark {
+    --bg-main: #0b1120;
+    --card-bg: #111827;
+    --border-color: #1f2937;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+/* Glassmorphism utility */
+.glass-panel {
+  background: rgba(17, 24, 39, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.light .glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Emerald glow effects */
+.glow-emerald {
+  box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3);
+}
+
+.glow-teal {
+  box-shadow: 0 0 25px -5px rgba(13, 148, 136, 0.3);
+}
+
+/* Hide browser default datalist dropdown arrow indicator (Chrome, Edge, Safari) */
+input[list]::-webkit-calendar-picker-indicator,
+input::-webkit-calendar-picker-indicator {
+  display: none !important;
+  -webkit-appearance: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Firefox: prevent dropdown arrow on datalist inputs */
+input[list] {
+  -moz-appearance: textfield;
+}
+
+/* Date input calendar icon styling */
+input[type="date"],
+input[type="time"],
+input[type="datetime-local"] {
+  color-scheme: dark;
+}
+
+.light input[type="date"],
+.light input[type="time"],
+.light input[type="datetime-local"] {
+  color-scheme: light;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  display: block !important;
+  width: auto !important;
+  height: auto !important;
+  opacity: 0.9 !important;
+  pointer-events: auto !important;
+  cursor: pointer;
+  filter: invert(0.85) sepia(100%) saturate(300%) hue-rotate(115deg) brightness(1.2);
+  transition: opacity 0.2s;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover,
+input[type="time"]::-webkit-calendar-picker-indicator:hover,
+input[type="datetime-local"]::-webkit-calendar-picker-indicator:hover {
+  opacity: 1 !important;
+}
+
+/* Print optimization for A4 Landscape Sheets */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 5mm;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    font-size: 9px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Hide navigation, buttons, controls during print */
+  header,
+  aside,
+  .no-print,
+  button,
+  .no-print-area {
+    display: none !important;
+  }
+
+  /* Force background colors and crisp borders in print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Page break utility for separate A4 Landscape sheets */
+  .print-page {
+    page-break-after: always;
+    break-after: page;
+    margin: 0 0 10mm 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    border: 1.5px solid #0f172a !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .print-page:last-child {
+    page-break-after: avoid;
+    break-after: avoid;
+    margin-bottom: 0 !important;
+  }
+
+  /* Table styling inside printed page */
+  .print-page table {
+    width: 100% !important;
+    font-size: 7.5px !important;
+    border-collapse: collapse !important;
+  }
+
+  .print-page th,
+  .print-page td {
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    padding: 2px 3px !important;
+  }
+
+  .print-page input {
+    border: none !important;
+    background: transparent !important;
+    color: #000000 !important;
+    font-size: 7.5px !important;
+    padding: 0 !important;
+    text-align: center !important;
+  }
+}
+
+
