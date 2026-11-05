@@ -48,7 +48,8 @@ export const DailyReports: React.FC = () => {
 
   const handleDownload = (format: 'excel' | 'pdf') => {
     const token = localStorage.getItem('fadna_token');
-    const baseUrl = '/api/reports';
+    const apiBase = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
+    const baseUrl = `${apiBase}/reports`;
     const params = new URLSearchParams();
 
     params.append('format', format);

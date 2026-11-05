@@ -399,7 +399,8 @@ export const DailyMatrixSheet: React.FC = () => {
 
   const handleDownloadExcel = (sheetType: 'all' | 'in-out' | 'stock' = 'all') => {
     const token = localStorage.getItem('fadna_token');
-    const baseUrl = '/api/reports/daily-matrix';
+    const apiBase = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
+    const baseUrl = `${apiBase}/reports/daily-matrix`;
     const params = new URLSearchParams({
       date: selectedDate,
       division,
@@ -413,7 +414,8 @@ export const DailyMatrixSheet: React.FC = () => {
 
   const handleDownloadPDF = (sheetType: 'all' | 'in-out' | 'stock' = 'all') => {
     const token = localStorage.getItem('fadna_token');
-    const baseUrl = '/api/reports/daily-matrix';
+    const apiBase = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
+    const baseUrl = `${apiBase}/reports/daily-matrix`;
     const params = new URLSearchParams({
       date: selectedDate,
       division,
