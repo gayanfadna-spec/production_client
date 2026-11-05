@@ -760,10 +760,10 @@ export const DailyMatrixSheet: React.FC = () => {
                           </span>
                         </th>
                       ))}
-                      <th className="py-2.5 px-4 text-left font-black tracking-wider uppercase border-l-2 border-slate-800 min-w-[220px] bg-slate-950 sticky right-0 z-10">
+                      <th className="py-2.5 px-4 text-left font-black tracking-wider uppercase border-l-2 border-slate-800 min-w-[220px] bg-slate-950 sticky right-12 z-20">
                         REMARK / CHANNEL
                       </th>
-                      <th className="w-12 px-2 text-center font-black uppercase text-[10px] text-slate-400 border-l border-slate-800 no-print">
+                      <th className="w-12 px-2 text-center font-black uppercase text-[10px] text-slate-400 border-l border-slate-800 bg-slate-950 sticky right-0 z-20 no-print">
                         ACTION
                       </th>
                     </tr>
@@ -797,7 +797,7 @@ export const DailyMatrixSheet: React.FC = () => {
                           );
                         })}
                         {/* REMARK Column on the right */}
-                        <td className="p-1 border-l-2 border-slate-800 bg-slate-900/90 sticky right-0 z-10">
+                        <td className="p-1 border-l-2 border-slate-800 bg-slate-900 sticky right-12 z-10">
                           <input
                             type="text"
                             placeholder="e.g. CARGILS ORDERS..."
@@ -806,7 +806,7 @@ export const DailyMatrixSheet: React.FC = () => {
                             className="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-lg px-2.5 py-1 text-xs font-sans font-bold text-slate-200 focus:outline-none"
                           />
                         </td>
-                        <td className="p-1 text-center no-print border-l border-slate-800">
+                        <td className="p-1 text-center no-print border-l border-slate-800 bg-slate-900 sticky right-0 z-10">
                           <button
                             type="button"
                             onClick={() => removeOutRow(rIdx)}
@@ -834,13 +834,13 @@ export const DailyMatrixSheet: React.FC = () => {
                           </td>
                         );
                       })}
-                      <td className="py-2 px-4 border-l-2 border-slate-800 bg-slate-950 font-sans font-black text-xs text-rose-400 uppercase tracking-wider sticky right-0 z-10 flex items-center justify-between">
+                      <td className="py-2 px-4 border-l-2 border-slate-800 bg-slate-950 font-sans font-black text-xs text-rose-400 uppercase tracking-wider sticky right-12 z-10 flex items-center justify-between">
                         <span>TOTAL OUT</span>
                         <span className="font-mono text-sm font-black text-rose-300">
                           {grandOutTotal}
                         </span>
                       </td>
-                      <td className="no-print"></td>
+                      <td className="bg-slate-950 sticky right-0 z-10 no-print border-l border-slate-800"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -878,10 +878,10 @@ export const DailyMatrixSheet: React.FC = () => {
                           </span>
                         </th>
                       ))}
-                      <th className="py-2.5 px-4 text-left font-black tracking-wider uppercase border-l-2 border-slate-800 min-w-[220px] bg-slate-950 sticky right-0 z-10">
+                      <th className="py-2.5 px-4 text-left font-black tracking-wider uppercase border-l-2 border-slate-800 min-w-[220px] bg-slate-950 sticky right-12 z-20">
                         REMARK / BATCH
                       </th>
-                      <th className="w-12 px-2 text-center font-black uppercase text-[10px] text-slate-400 border-l border-slate-800 no-print">
+                      <th className="w-12 px-2 text-center font-black uppercase text-[10px] text-slate-400 border-l border-slate-800 bg-slate-950 sticky right-0 z-20 no-print">
                         ACTION
                       </th>
                     </tr>
@@ -914,7 +914,7 @@ export const DailyMatrixSheet: React.FC = () => {
                             </td>
                           );
                         })}
-                        <td className="p-1 border-l-2 border-slate-800 bg-slate-900/90 sticky right-0 z-10">
+                        <td className="p-1 border-l-2 border-slate-800 bg-slate-900 sticky right-12 z-10">
                           <input
                             type="text"
                             placeholder="e.g. BATCH-01 PRODUCTION..."
@@ -923,7 +923,7 @@ export const DailyMatrixSheet: React.FC = () => {
                             className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-500 rounded-lg px-2.5 py-1 text-xs font-sans font-bold text-slate-200 focus:outline-none"
                           />
                         </td>
-                        <td className="p-1 text-center no-print border-l border-slate-800">
+                        <td className="p-1 text-center no-print border-l border-slate-800 bg-slate-900 sticky right-0 z-10">
                           <button
                             type="button"
                             onClick={() => removeInRow(rIdx)}
@@ -951,13 +951,13 @@ export const DailyMatrixSheet: React.FC = () => {
                           </td>
                         );
                       })}
-                      <td className="py-2 px-4 border-l-2 border-slate-800 bg-slate-950 font-sans font-black text-xs text-emerald-400 uppercase tracking-wider sticky right-0 z-10 flex items-center justify-between">
+                      <td className="py-2 px-4 border-l-2 border-slate-800 bg-slate-950 font-sans font-black text-xs text-emerald-400 uppercase tracking-wider sticky right-12 z-10 flex items-center justify-between">
                         <span>TOTAL IN</span>
                         <span className="font-mono text-sm font-black text-emerald-300">
                           {grandInTotal}
                         </span>
                       </td>
-                      <td className="no-print"></td>
+                      <td className="bg-slate-950 sticky right-0 z-10 no-print border-l border-slate-800"></td>
                     </tr>
 
                   </tbody>
