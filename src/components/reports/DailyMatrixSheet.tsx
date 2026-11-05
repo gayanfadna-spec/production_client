@@ -83,6 +83,7 @@ export const DailyMatrixSheet: React.FC = () => {
   // Reconciliation editable state
   const [actualCounts, setActualCounts] = useState<{ [code: string]: number | string }>({});
   const [storeStocks, setStoreStocks] = useState<{ [code: string]: number | string }>({});
+  const [editedStoreStocks, setEditedStoreStocks] = useState<{ [code: string]: number }>({});
   const [packagingWIP, setPackagingWIP] = useState<any>({
     boxStock: 0,
     pasted: 0,
@@ -224,6 +225,7 @@ export const DailyMatrixSheet: React.FC = () => {
         });
         setActualCounts(initialActuals);
         setStoreStocks(initialStoreStocks);
+        setEditedStoreStocks({});
 
         if (data.packagingWIP) {
           setPackagingWIP(data.packagingWIP);
@@ -365,7 +367,7 @@ export const DailyMatrixSheet: React.FC = () => {
         division,
         outRows: cleanOutRows,
         inRows: cleanInRows,
-        storeStocks,
+        storeStocks: Object.keys(editedStoreStocks).length > 0 ? editedStoreStocks : undefined,
         actualCounts,
         packagingWIP,
       });
@@ -1106,10 +1108,23 @@ export const DailyMatrixSheet: React.FC = () => {
                                 value={val !== undefined && val !== null ? val : (p.finishedStoreStock ?? 0)}
                                 onChange={(e) => {
                                   const raw = e.target.value;
+                                  const num = raw === '' ? '' : Number(raw);
                                   setStoreStocks({
                                     ...storeStocks,
-                                    [p.shortCode]: raw === '' ? '' : Number(raw),
+                                    [p.shortCode]: num,
                                   });
+                                  if (raw !== '') {
+                                    setEditedStoreStocks((prev) => ({
+                                      ...prev,
+                                      [p.shortCode]: Number(raw),
+                                    }));
+                                  } else {
+                                    setEditedStoreStocks((prev) => {
+                                      const next = { ...prev };
+                                      delete next[p.shortCode];
+                                      return next;
+                                    });
+                                  }
                                 }}
                                 className="w-full py-1 text-center bg-transparent focus:bg-slate-950 text-xs font-bold text-cyan-300 focus:text-white focus:outline-none focus:ring-1 focus:ring-cyan-500"
                               />
