@@ -268,7 +268,10 @@ export const DailyMatrixSheet: React.FC = () => {
   };
 
   const removeOutRow = (rowIdx: number) => {
-    if (outRows.length <= 1) return;
+    if (outRows.length <= 1) {
+      setOutRows([{ id: `out-blank-${Date.now()}`, remark: '', items: {} }]);
+      return;
+    }
     setOutRows(outRows.filter((_, idx) => idx !== rowIdx));
   };
 
@@ -300,7 +303,10 @@ export const DailyMatrixSheet: React.FC = () => {
   };
 
   const removeInRow = (rowIdx: number) => {
-    if (inRows.length <= 1) return;
+    if (inRows.length <= 1) {
+      setInRows([{ id: `in-blank-${Date.now()}`, remark: '', items: {} }]);
+      return;
+    }
     setInRows(inRows.filter((_, idx) => idx !== rowIdx));
   };
 
@@ -757,7 +763,9 @@ export const DailyMatrixSheet: React.FC = () => {
                       <th className="py-2.5 px-4 text-left font-black tracking-wider uppercase border-l-2 border-slate-800 min-w-[220px] bg-slate-950 sticky right-0 z-10">
                         REMARK / CHANNEL
                       </th>
-                      <th className="w-10 no-print"></th>
+                      <th className="w-12 px-2 text-center font-black uppercase text-[10px] text-slate-400 border-l border-slate-800 no-print">
+                        ACTION
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/80 font-mono">
@@ -798,13 +806,14 @@ export const DailyMatrixSheet: React.FC = () => {
                             className="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500 rounded-lg px-2.5 py-1 text-xs font-sans font-bold text-slate-200 focus:outline-none"
                           />
                         </td>
-                        <td className="p-1 text-center no-print">
+                        <td className="p-1 text-center no-print border-l border-slate-800">
                           <button
+                            type="button"
                             onClick={() => removeOutRow(rIdx)}
-                            className="text-slate-600 hover:text-rose-400 p-1"
-                            title="Remove row"
+                            className="p-1.5 rounded-lg text-rose-400/70 hover:text-rose-200 hover:bg-rose-950/60 transition-colors"
+                            title="Delete this row"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </td>
                       </tr>
@@ -872,7 +881,9 @@ export const DailyMatrixSheet: React.FC = () => {
                       <th className="py-2.5 px-4 text-left font-black tracking-wider uppercase border-l-2 border-slate-800 min-w-[220px] bg-slate-950 sticky right-0 z-10">
                         REMARK / BATCH
                       </th>
-                      <th className="w-10 no-print"></th>
+                      <th className="w-12 px-2 text-center font-black uppercase text-[10px] text-slate-400 border-l border-slate-800 no-print">
+                        ACTION
+                      </th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-800/80 font-mono">
@@ -912,13 +923,14 @@ export const DailyMatrixSheet: React.FC = () => {
                             className="w-full bg-slate-950 border border-slate-800 focus:border-cyan-500 rounded-lg px-2.5 py-1 text-xs font-sans font-bold text-slate-200 focus:outline-none"
                           />
                         </td>
-                        <td className="p-1 text-center no-print">
+                        <td className="p-1 text-center no-print border-l border-slate-800">
                           <button
+                            type="button"
                             onClick={() => removeInRow(rIdx)}
-                            className="text-slate-600 hover:text-rose-400 p-1"
-                            title="Remove row"
+                            className="p-1.5 rounded-lg text-rose-400/70 hover:text-rose-200 hover:bg-rose-950/60 transition-colors"
+                            title="Delete this row"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </td>
                       </tr>
