@@ -99,6 +99,7 @@ export const Users: React.FC = () => {
   // Form State for Add User
   const [addForm, setAddForm] = useState({
     name: '',
+    username: '',
     email: '',
     password: '',
     role: 'viewer' as UserRole,
@@ -109,6 +110,7 @@ export const Users: React.FC = () => {
   // Form State for Edit User
   const [editForm, setEditForm] = useState({
     name: '',
+    username: '',
     email: '',
     role: 'viewer' as UserRole,
     department: 'Production & Planning',
@@ -180,6 +182,7 @@ export const Users: React.FC = () => {
         setIsAddModalOpen(false);
         setAddForm({
           name: '',
+          username: '',
           email: '',
           password: '',
           role: 'viewer',
@@ -262,6 +265,7 @@ export const Users: React.FC = () => {
     setSelectedUser(u);
     setEditForm({
       name: u.name,
+      username: u.username || '',
       email: u.email,
       role: u.role,
       department: u.department || 'Production & Planning',
@@ -388,6 +392,7 @@ export const Users: React.FC = () => {
   const filteredUsers = users.filter((u) => {
     const matchesSearch =
       u.name.toLowerCase().includes(userSearch.toLowerCase()) ||
+      (u.username && u.username.toLowerCase().includes(userSearch.toLowerCase())) ||
       u.email.toLowerCase().includes(userSearch.toLowerCase()) ||
       (u.department && u.department.toLowerCase().includes(userSearch.toLowerCase()));
 
@@ -560,7 +565,7 @@ export const Users: React.FC = () => {
                 type="text"
                 value={userSearch}
                 onChange={(e) => setUserSearch(e.target.value)}
-                placeholder="Search by name, email, department..."
+                placeholder="Search by name, username, email, department..."
                 className="w-full bg-slate-900 border border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
               />
             </div>
@@ -639,18 +644,25 @@ export const Users: React.FC = () => {
                                 {initials}
                               </div>
                               <div>
-                                <p className="font-bold text-slate-100 flex items-center gap-1.5">
-                                  <span>{u.name}</span>
-                                  {currentUser && (currentUser.email === u.email) && (
+                                <div className="flex items-center gap-1.5">
+                                  <span className="font-bold text-slate-100">{u.name}</span>
+                                  {currentUser && (currentUser.email === u.email || (currentUser.username && currentUser.username === u.username)) && (
                                     <span className="px-1.5 py-0.2 rounded text-[9px] font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
                                       You
                                     </span>
                                   )}
-                                </p>
-                                <p className="text-[11px] text-slate-400 font-mono flex items-center gap-1 mt-0.5">
-                                  <Mail className="w-3 h-3 text-slate-500" />
-                                  <span>{u.email}</span>
-                                </p>
+                                </div>
+                                <div className="flex items-center gap-2 text-[11px] font-mono mt-0.5">
+                                  {u.username && (
+                                    <span className="px-1.5 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20 font-semibold text-[10px]">
+                                      @{u.username}
+                                    </span>
+                                  )}
+                                  <span className="text-slate-400 flex items-center gap-1">
+                                    <Mail className="w-3 h-3 text-slate-500" />
+                                    <span>{u.email}</span>
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </td>
@@ -1177,18 +1189,34 @@ export const Users: React.FC = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-400 mb-1">
-              Email Address (Login Username) *
-            </label>
-            <input
-              type="email"
-              required
-              value={addForm.email}
-              onChange={(e) => setAddForm({ ...addForm, email: e.target.value })}
-              placeholder="e.g. asanka@fadna.com"
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">
+                Username (Login ID) *
+              </label>
+              <input
+                type="text"
+                required
+                value={addForm.username}
+                onChange={(e) => setAddForm({ ...addForm, username: e.target.value.toLowerCase().replace(/\s+/g, '') })}
+                placeholder="e.g. asanka"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500 font-mono"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">
+                Email Address *
+              </label>
+              <input
+                type="email"
+                required
+                value={addForm.email}
+                onChange={(e) => setAddForm({ ...addForm, email: e.target.value })}
+                placeholder="e.g. asanka@fadna.com"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+              />
+            </div>
           </div>
 
           <div>
@@ -1308,17 +1336,32 @@ export const Users: React.FC = () => {
             />
           </div>
 
-          <div>
-            <label className="block text-xs font-semibold text-slate-400 mb-1">
-              Email Address *
-            </label>
-            <input
-              type="email"
-              required
-              value={editForm.email}
-              onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
-            />
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">
+                Username (Login ID) *
+              </label>
+              <input
+                type="text"
+                required
+                value={editForm.username}
+                onChange={(e) => setEditForm({ ...editForm, username: e.target.value.toLowerCase().replace(/\s+/g, '') })}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500 font-mono"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">
+                Email Address *
+              </label>
+              <input
+                type="email"
+                required
+                value={editForm.email}
+                onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+              />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-3">

@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../api/client';
-import { Leaf, Shield, UserCheck, Lock, ArrowRight, Sparkles } from 'lucide-react';
+import { Leaf, User as UserIcon, Lock, ArrowRight, Sparkles } from 'lucide-react';
 
 export const Login: React.FC = () => {
   const { login } = useAuth();
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleLogin = async (loginEmail?: string, loginPassword?: string) => {
+  const handleLogin = async (loginUsername?: string, loginPassword?: string) => {
     setLoading(true);
     setError('');
-    const targetEmail = loginEmail || email;
+    const targetUsername = loginUsername || username;
     const targetPassword = loginPassword || password;
 
     try {
       const res = await api.post('/auth/login', {
-        email: targetEmail,
+        username: targetUsername,
+        email: targetUsername,
         password: targetPassword,
       });
 
@@ -36,28 +37,28 @@ export const Login: React.FC = () => {
     {
       role: 'Factory Admin',
       name: 'Dr. Rohan Fernando',
-      email: 'admin@fadna.com',
+      username: 'admin',
       pass: 'admin123',
       color: 'border-rose-500/40 text-rose-400 bg-rose-500/10',
     },
     {
       role: 'Production Manager',
       name: 'Kavinda Jayasuriya',
-      email: 'manager@fadna.com',
+      username: 'manager',
       pass: 'manager123',
       color: 'border-emerald-500/40 text-emerald-400 bg-emerald-500/10',
     },
     {
       role: 'Store Keeper',
       name: 'Sunil Weerasinghe',
-      email: 'store@fadna.com',
+      username: 'store',
       pass: 'store123',
       color: 'border-amber-500/40 text-amber-400 bg-amber-500/10',
     },
     {
       role: 'Auditor / Viewer',
       name: 'Nadeesha Perera',
-      email: 'viewer@fadna.com',
+      username: 'viewer',
       pass: 'viewer123',
       color: 'border-blue-500/40 text-blue-400 bg-blue-500/10',
     },
@@ -100,15 +101,18 @@ export const Login: React.FC = () => {
           >
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
-                Staff Email
+                Username
               </label>
               <div className="relative">
                 <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="name@fadna.com"
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  placeholder="e.g. admin or username"
                   required
+                  autoFocus
+                  autoCapitalize="none"
+                  autoCorrect="off"
                   className="w-full bg-slate-950/80 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-emerald-500 transition-colors"
                 />
               </div>
@@ -157,17 +161,18 @@ export const Login: React.FC = () => {
             <div className="grid grid-cols-2 gap-2">
               {quickRoles.map((role) => (
                 <button
-                  key={role.email}
+                  key={role.username}
                   type="button"
                   onClick={() => {
-                    setEmail(role.email);
+                    setUsername(role.username);
                     setPassword(role.pass);
-                    handleLogin(role.email, role.pass);
+                    handleLogin(role.username, role.pass);
                   }}
                   className={`p-2.5 rounded-xl border text-left transition-all hover:scale-[1.02] ${role.color}`}
                 >
                   <p className="text-[11px] font-bold">{role.role}</p>
                   <p className="text-[10px] text-slate-400 truncate">{role.name}</p>
+                  <p className="text-[9px] font-mono opacity-70 mt-0.5">user: {role.username}</p>
                 </button>
               ))}
             </div>
