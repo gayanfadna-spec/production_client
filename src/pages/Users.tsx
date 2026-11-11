@@ -52,6 +52,7 @@ export const Users: React.FC = () => {
     productionManager: 0,
     storeKeeper: 0,
     viewer: 0,
+    other: 0,
   });
 
   // Audit Logs State
@@ -103,6 +104,7 @@ export const Users: React.FC = () => {
     email: '',
     password: '',
     role: 'viewer' as UserRole,
+    customRole: '',
     department: 'Production & Planning',
     isActive: true,
   });
@@ -113,6 +115,7 @@ export const Users: React.FC = () => {
     username: '',
     email: '',
     role: 'viewer' as UserRole,
+    customRole: '',
     department: 'Production & Planning',
     isActive: true,
     password: '',
@@ -186,6 +189,7 @@ export const Users: React.FC = () => {
           email: '',
           password: '',
           role: 'viewer',
+          customRole: '',
           department: 'Production & Planning',
           isActive: true,
         });
@@ -268,6 +272,7 @@ export const Users: React.FC = () => {
       username: u.username || '',
       email: u.email,
       role: u.role,
+      customRole: u.customRole || '',
       department: u.department || 'Production & Planning',
       isActive: u.isActive !== undefined ? u.isActive : true,
       password: '',
@@ -282,7 +287,7 @@ export const Users: React.FC = () => {
     setActiveTab('audit');
   };
 
-  const getRoleBadge = (role: UserRole) => {
+  const getRoleBadge = (role: UserRole, customRole?: string) => {
     switch (role) {
       case 'admin':
         return (
@@ -300,6 +305,13 @@ export const Users: React.FC = () => {
         return (
           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-sky-500/10 text-sky-400 border border-sky-500/20">
             <Package className="w-3 h-3" /> Store Keeper
+          </span>
+        );
+      case 'other':
+      case 'others':
+        return (
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-semibold bg-amber-500/10 text-amber-300 border border-amber-500/20">
+            <UserCheck className="w-3 h-3" /> {customRole ? `Others (${customRole})` : 'Others'}
           </span>
         );
       default:
@@ -396,7 +408,10 @@ export const Users: React.FC = () => {
       u.email.toLowerCase().includes(userSearch.toLowerCase()) ||
       (u.department && u.department.toLowerCase().includes(userSearch.toLowerCase()));
 
-    const matchesRole = roleFilter === 'all' || u.role === roleFilter;
+    const matchesRole =
+      roleFilter === 'all' ||
+      u.role === roleFilter ||
+      (roleFilter === 'other' && (u.role === 'other' || u.role === 'others'));
     const matchesStatus =
       statusFilter === 'all'
         ? true
@@ -582,6 +597,7 @@ export const Users: React.FC = () => {
                 <option value="production_manager">Production Manager</option>
                 <option value="store_keeper">Store Keeper</option>
                 <option value="viewer">Viewer</option>
+                <option value="other">Others</option>
               </select>
 
               <select
@@ -668,7 +684,7 @@ export const Users: React.FC = () => {
                           </td>
 
                           <td className="py-3.5 px-4">
-                            {getRoleBadge(u.role)}
+                            {getRoleBadge(u.role, u.customRole)}
                           </td>
 
                           <td className="py-3.5 px-4">
@@ -1248,6 +1264,7 @@ export const Users: React.FC = () => {
                 <option value="store_keeper">Store Keeper (Stock In/Out, Relocate)</option>
                 <option value="production_manager">Production Manager (BOM, Planning)</option>
                 <option value="admin">Administrator (Full Control)</option>
+                <option value="other">Others</option>
               </select>
             </div>
 
@@ -1264,6 +1281,21 @@ export const Users: React.FC = () => {
               />
             </div>
           </div>
+
+          {(addForm.role === 'other' || addForm.role === 'others') && (
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">
+                Specify Role Title (Optional)
+              </label>
+              <input
+                type="text"
+                value={addForm.customRole}
+                onChange={(e) => setAddForm({ ...addForm, customRole: e.target.value })}
+                placeholder="e.g. Quality Inspector, Machine Operator, Accounts Staff"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+          )}
 
           <div className="flex items-center gap-2 pt-2">
             <input
@@ -1378,6 +1410,7 @@ export const Users: React.FC = () => {
                 <option value="store_keeper">Store Keeper (Stock In/Out, Relocate)</option>
                 <option value="production_manager">Production Manager (BOM, Planning)</option>
                 <option value="admin">Administrator (Full Control)</option>
+                <option value="other">Others</option>
               </select>
             </div>
 
@@ -1393,6 +1426,21 @@ export const Users: React.FC = () => {
               />
             </div>
           </div>
+
+          {(editForm.role === 'other' || editForm.role === 'others') && (
+            <div>
+              <label className="block text-xs font-semibold text-slate-400 mb-1">
+                Specify Role Title (Optional)
+              </label>
+              <input
+                type="text"
+                value={editForm.customRole}
+                onChange={(e) => setEditForm({ ...editForm, customRole: e.target.value })}
+                placeholder="e.g. Quality Inspector, Machine Operator, Accounts Staff"
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-purple-500"
+              />
+            </div>
+          )}
 
           <div>
             <label className="block text-xs font-semibold text-slate-400 mb-1">

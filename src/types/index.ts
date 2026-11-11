@@ -1,4 +1,4 @@
-export type UserRole = 'admin' | 'production_manager' | 'store_keeper' | 'viewer';
+export type UserRole = 'admin' | 'production_manager' | 'store_keeper' | 'viewer' | 'other' | 'others';
 
 export interface LastEditedInfo {
   userId?: string;
@@ -16,6 +16,7 @@ export interface User {
   name: string;
   email: string;
   role: UserRole;
+  customRole?: string;
   department: string;
   isActive?: boolean;
   avatar?: string;
