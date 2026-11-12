@@ -13,8 +13,8 @@ export const Login: React.FC = () => {
   const handleLogin = async (loginUsername?: string, loginPassword?: string) => {
     setLoading(true);
     setError('');
-    const targetUsername = loginUsername || username;
-    const targetPassword = loginPassword || password;
+    const targetUsername = (loginUsername !== undefined ? loginUsername : username).trim();
+    const targetPassword = loginPassword !== undefined ? loginPassword : password;
 
     try {
       const res = await api.post('/auth/login', {
@@ -34,6 +34,13 @@ export const Login: React.FC = () => {
   };
 
   const quickRoles = [
+    {
+      role: 'System Administrator',
+      name: 'Gayan Tharaka',
+      username: 'gayan',
+      pass: '123456',
+      color: 'border-purple-500/40 text-purple-400 bg-purple-500/10',
+    },
     {
       role: 'Factory Admin',
       name: 'Dr. Rohan Fernando',
@@ -101,14 +108,14 @@ export const Login: React.FC = () => {
           >
             <div>
               <label className="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5">
-                Username
+                Username, Email, or Full Name
               </label>
               <div className="relative">
                 <input
                   type="text"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="e.g. admin or username"
+                  placeholder="e.g. gayan, admin, or gayanfadna@gmail.com"
                   required
                   autoFocus
                   autoCapitalize="none"
