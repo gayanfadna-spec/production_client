@@ -22,7 +22,6 @@ import {
   FileDown,
   FileText,
   ChevronDown,
-  Edit3,
 } from 'lucide-react';
 
 // Helper to get today's date in local 'YYYY-MM-DD'
@@ -625,13 +624,7 @@ export const DailyMatrixSheet: React.FC = () => {
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black shadow-lg shadow-emerald-950/60 transition-all disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
-            <span>
-              {savingGrid || savingRecon
-                ? 'Saving Matrix...'
-                : Object.keys(editedStoreStocks).length > 0
-                ? 'Save Ledger & Store Stock'
-                : 'Save Matrix Ledger'}
-            </span>
+            <span>{savingGrid || savingRecon ? 'Saving Matrix...' : 'Save Matrix Ledger'}</span>
           </button>
 
           {/* Export Dropdown (Separate Sheets fixed to A4 Landscape) */}
@@ -1030,11 +1023,6 @@ export const DailyMatrixSheet: React.FC = () => {
                         {reconSuccessMsg}
                       </span>
                     )}
-                    {Object.keys(editedStoreStocks).length > 0 && (
-                      <span className="text-xs text-amber-300 font-bold flex items-center gap-1 bg-amber-950/50 border border-amber-600/70 px-2.5 py-1 rounded-lg animate-pulse">
-                        ⚡ {Object.keys(editedStoreStocks).length} Store Stock Edited
-                      </span>
-                    )}
                     <button
                       type="button"
                       onClick={() => {
@@ -1056,13 +1044,7 @@ export const DailyMatrixSheet: React.FC = () => {
                       className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-md shadow-indigo-950 transition-all disabled:opacity-50"
                     >
                       <Save className="w-3.5 h-3.5" />
-                      <span>
-                        {savingRecon
-                          ? 'Saving...'
-                          : Object.keys(editedStoreStocks).length > 0
-                          ? 'Save Stock & Audit'
-                          : 'Save Physical Audit'}
-                      </span>
+                      <span>{savingRecon ? 'Saving...' : 'Save Physical Audit'}</span>
                     </button>
                   </div>
                 </div>
@@ -1113,25 +1095,17 @@ export const DailyMatrixSheet: React.FC = () => {
                       </tr>
 
                       {/* STORE STOCK ROW */}
-                      <tr className="bg-slate-900/60 hover:bg-slate-900/80 transition-colors">
+                      <tr className="bg-slate-900/40">
                         <td className="px-3 py-2 font-sans font-bold text-slate-300 sticky left-0 bg-slate-900/95 z-10 border-r border-slate-800 whitespace-nowrap">
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="font-black text-cyan-300">FINISHED STORE STOCK</span>
-                            <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">
-                              <Edit3 className="w-2.5 h-2.5" /> Edit Anytime
-                            </span>
-                          </div>
+                          FINISHED STORE STOCK
                         </td>
                         {products.map((p) => {
                           const val = storeStocks[p.shortCode];
-                          const isEdited = editedStoreStocks[p.shortCode] !== undefined;
-                          const displayVal = val !== undefined && val !== null ? val : (p.finishedStoreStock ?? 0);
                           return (
-                            <td key={p.shortCode} className="p-1 border-r border-slate-800/40 text-center">
+                            <td key={p.shortCode} className="p-0 border-r border-slate-800/40 text-center">
                               <input
                                 type="number"
-                                min={0}
-                                value={displayVal}
+                                value={val !== undefined && val !== null ? val : (p.finishedStoreStock ?? 0)}
                                 onChange={(e) => {
                                   const raw = e.target.value;
                                   const num = raw === '' ? '' : Number(raw);
@@ -1152,12 +1126,7 @@ export const DailyMatrixSheet: React.FC = () => {
                                     });
                                   }
                                 }}
-                                className={`w-full py-1 text-center text-xs font-mono font-bold rounded transition-all focus:outline-none focus:ring-2 ${
-                                  isEdited
-                                    ? 'bg-amber-500/20 text-amber-200 border-2 border-amber-400 focus:ring-amber-400'
-                                    : 'bg-slate-950/70 hover:bg-slate-950 text-cyan-300 border border-cyan-500/30 hover:border-cyan-400 focus:border-cyan-400 focus:ring-cyan-500'
-                                }`}
-                                title={`Click to edit Finished Store Stock anytime for ${p.shortCode}`}
+                                className="w-full py-1 text-center bg-transparent focus:bg-slate-950 text-xs font-bold text-cyan-300 focus:text-white focus:outline-none focus:ring-1 focus:ring-cyan-500"
                               />
                             </td>
                           );
